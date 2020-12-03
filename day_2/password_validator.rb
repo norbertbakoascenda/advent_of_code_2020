@@ -17,24 +17,25 @@ class PasswordValidator
 
     def parse(file_path)
       File.open(file_path).map do |line|
-        {
-          min: line[/^\d+/],
-          max: line[/(?<=-)\d+/],
-          character: line[/[a-z](?!=:)/],
-          password: line[/(?!=:)[a-z]{2,}/]
-        }
+        [
+          line[/^\d+/].to_i,
+          line[/(?<=-)\d+/].to_i,
+          line[/[a-z](?!=:)/],
+          line[/(?!=:)[a-z]{2,}/]
+        ]
       end
     end
 
     def valid?(password_line)
-      return false if password_line[:password].count(password_line[:character]) < password_line[:min].to_i
-      return false if password_line[:password].count(password_line[:character]) > password_line[:max].to_i
-      true
+      min, max, character, password = password_line
+
+      password.count(character) >= min && password.count(character) <= max
     end
 
-    def valid2?(**password_line)
-      password = password_line[:password]
-      (password[password_line[:min].to_i - 1] == password_line[:character]) ^ (password[password_line[:max].to_i - 1] == password_line[:character])
+    def valid2?(password_line)
+      min, max, character, password = password_line
+
+      (password[min - 1] == character) ^ (password[max - 1] == character )
     end
 end
 
