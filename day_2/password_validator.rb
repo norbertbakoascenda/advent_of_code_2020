@@ -29,13 +29,13 @@ class PasswordValidator
     def valid?(password_line)
       min, max, character, password = password_line
 
-      password.count(character) >= min && password.count(character) <= max
+      (password.count(character) >= min) && (password.count(character) <= max)
     end
 
     def valid2?(password_line)
       min, max, character, password = password_line
 
-      (password[min - 1] == character) ^ (password[max - 1] == character )
+      (password[min - 1] == character) ^ (password[max - 1] == character)
     end
 end
 
