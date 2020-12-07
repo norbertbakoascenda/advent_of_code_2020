@@ -16,13 +16,13 @@ class TobboganTreeCounter
   end
 
   def calculate_all_slopes
-    CASES.map { |scenario| calculate_slope(scenario[:right], scenario[:down]) }.inject(:*)
+    CASES.map { |scenario| calculate_slope(scenario[:right], scenario[:down]) }
   end
 
   def calculate_slope(right, down)
     sum = 0
     coord_x = 0
-    (0..@input.length - 1).step(down).each do |i|
+    (0...@input.length).step(down).each do |i|
       sum += 1 if @input[i][coord_x % @input[i].length] == '#'
       coord_x += right
     end
@@ -30,4 +30,4 @@ class TobboganTreeCounter
   end
 end
 
-puts TobboganTreeCounter.new('input.txt').calculate_all_slopes
+puts TobboganTreeCounter.new('bnd_input.txt').calculate_all_slopes
